@@ -1,6 +1,8 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
+// @ts-ignore
+import md5 from 'js-md5';
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
@@ -22,10 +24,19 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login/account', {
+  const values = body;
+  values.grant_type = 'password';
+  values.scope = 'all';
+  values.password = md5(values.password);
+
+  return request<API.LoginResult>('/api/blade-auth/oauth/token', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Tenant-Id': '000000',
+      'Dept-Id': '',
+      'Role-Id': '',
+      'Captcha-key': '',
+      'Captcha-code': '',
     },
     data: body,
     ...(options || {}),
