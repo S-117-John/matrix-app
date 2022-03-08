@@ -95,6 +95,19 @@ export default defineConfig({
       ],
     },
     {
+      path: '/system',
+      icon: 'form',
+      name: '系统管理',
+      routes: [
+        {
+          name: '用户管理',
+          icon: 'smile',
+          path: '/form/basic-form',
+          component: './form/basic-form',
+        },
+      ],
+    },
+    {
       path: '/form',
       icon: 'form',
       name: 'form',
