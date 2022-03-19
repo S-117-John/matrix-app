@@ -15,6 +15,7 @@ import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 
 import styles from './index.less';
+import { setAccessToken, setAuthority, setCurrentUser, setToken } from '@/utils/authority';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -55,7 +56,20 @@ const Login: React.FC = () => {
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
         });
-        localStorage.setItem('token', msg.access_token);
+        const token = `${msg.token_type} ${msg.access_token}`;
+        setToken(token);
+        setAccessToken(msg.access_token);
+        setAuthority(msg.role_name);
+        setCurrentUser({
+          userId: msg.user_id,
+          oauthId: msg.oauth_id,
+          deptId: msg.dept_id,
+          roleId: msg.role_id,
+          avatar: msg.avatar,
+          account: msg.account,
+          name: msg.user_name,
+          authority: msg.role_name,
+        });
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */

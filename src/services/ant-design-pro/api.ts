@@ -8,16 +8,16 @@ import { request as request1 } from '../../utils/request';
 import md5 from 'js-md5';
 import { Base64 } from 'js-base64';
 import { clientId, clientSecret } from '@/defaultSettings';
+import { getToken } from '@/utils/authority';
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
-  const token = localStorage.getItem('token');
   return request<{
     data: API.CurrentUser;
   }>('/api/blade-auth/oauth/user-info', {
     method: 'GET',
     headers: {
-      Authorization: 'bearer ' + token,
+      Authorization: getToken(),
     },
     ...(options || {}),
   });

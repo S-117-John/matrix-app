@@ -28,6 +28,15 @@ declare namespace API {
     type?: string;
     currentAuthority?: string;
     access_token?: string;
+    token_type?: string;
+    role_name?: string;
+    user_id?: string;
+    oauth_id?: string;
+    dept_id?: string;
+    role_id?: string;
+    avatar?: string;
+    account?: string;
+    user_name?: string;
   };
 
   type PageParams = {

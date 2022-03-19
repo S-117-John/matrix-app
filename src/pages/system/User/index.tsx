@@ -1,10 +1,10 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
+import { Button, message, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
+import { ModalForm, ProFormText } from '@ant-design/pro-form';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
@@ -92,75 +92,24 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: '规则名称',
-      dataIndex: 'name',
-      tip: '规则名称是唯一的 key',
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
-      },
+      title: '登陆账号',
+      dataIndex: 'account',
     },
     {
-      title: '描述',
-      dataIndex: 'desc',
-      valueType: 'textarea',
+      title: '用户姓名',
+      dataIndex: 'realName',
     },
     {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
-      sorter: true,
-      hideInForm: true,
-      renderText: (val: string) => `${val}万`,
+      title: '所属角色',
+      dataIndex: 'roleName',
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      hideInForm: true,
-      valueEnum: {
-        0: {
-          text: '关闭',
-          status: 'Default',
-        },
-        1: {
-          text: '运行中',
-          status: 'Processing',
-        },
-        2: {
-          text: '已上线',
-          status: 'Success',
-        },
-        3: {
-          text: '异常',
-          status: 'Error',
-        },
-      },
+      title: '所属机构',
+      dataIndex: 'deptName',
     },
     {
-      title: '上次调度时间',
-      sorter: true,
-      dataIndex: 'updatedAt',
-      valueType: 'dateTime',
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
-        const status = form.getFieldValue('status');
-
-        if (`${status}` === '0') {
-          return false;
-        }
-
-        if (`${status}` === '3') {
-          return <Input {...rest} placeholder="请输入异常原因！" />;
-        }
-
-        return defaultRender(item);
-      },
+      title: '用户平台',
+      dataIndex: 'userTypeName',
     },
     {
       title: '操作',
@@ -243,7 +192,7 @@ const TableList: React.FC = () => {
         </FooterToolbar>
       )}
       <ModalForm
-        title="新建规则"
+        title="新建用户"
         width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
@@ -258,16 +207,25 @@ const TableList: React.FC = () => {
         }}
       >
         <ProFormText
+          label="登陆账户"
           rules={[
             {
               required: true,
-              message: '规则名称为必填项',
             },
           ]}
           width="md"
-          name="name"
+          name="account"
         />
-        <ProFormTextArea width="md" name="desc" />
+        <ProFormText
+          label="用户姓名"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+          width="md"
+          name="realName"
+        />
       </ModalForm>
       <UpdateForm
         onSubmit={async (value) => {

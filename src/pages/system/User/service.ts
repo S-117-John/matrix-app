@@ -2,6 +2,7 @@
 /* eslint-disable */
 import { request } from 'umi';
 import { TableListItem } from './data';
+import { getToken } from '@/utils/authority';
 
 /** 获取规则列表 GET /api/rule */
 export async function rule(
@@ -39,8 +40,13 @@ export async function updateRule(data: { [key: string]: any }, options?: { [key:
 
 /** 新建规则 POST /api/rule */
 export async function addRule(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/rule', {
+  return request<TableListItem>('/api/blade-user/submit', {
     data,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: getToken(),
+    },
     method: 'POST',
     ...(options || {}),
   });
